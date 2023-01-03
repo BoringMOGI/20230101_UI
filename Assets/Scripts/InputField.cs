@@ -1,34 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class InputField : MonoBehaviour
 {
+    // 현재 필드가 유효한지 외부에 공개.
+    public bool ValidField { get; private set; }
 
-    public void OnEndEdit(string str)
+    // 입력이 끝났을 때 불리는 이벤트 함수.
+    public virtual void OnEndEdit(string str)
     {
-        bool isValid = IsValid(str);
-        Debug.Log(isValid);
+        ValidField = IsValid(str);
     }
-    private bool IsValid(string str)
+
+    protected virtual bool IsValid(string str)
     {
         // 길이가 5 ~ 20자가 아닐경우.
         if (str.Length < 5 || 20 < str.Length)
             return false;
 
-        // 33~126까지의 배열 중에서 exception을 뺀다 (차집합)
-        //var validChar = Enumerable.Range(65, 122 - 65).Except(exception);
-        var validChar = Enumerable.Range(65, 122 - 65).Union(Enumerable.Range(48, 57 - 48));
-
-        // 특수 기호 (-),(_)를 포함시킨다.
-        validChar = validChar.Union(Enumerable.Range(45, 2));
-
-        for(int i = 0; i<str.Length; i++)
-        {
-            // 검색한 유효 문자 배열 중에서 str의 i번째 값이 포함되어 있지 않다면...
-            if (!validChar.Contains(str[i]))
-                return false;
-        }
-
-        return true;
+        // 대소문자 + 숫자 + (-),(_)
+        // Regex : 정규표현식
+        Regex regex = new Regex("[a-zA-Z0-9-_]");
+        return regex.Matches(str).Count == str.Length;  // 패턴과 매칭되는 글자의 개수가 같다면..
     }
 }

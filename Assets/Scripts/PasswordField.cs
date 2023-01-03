@@ -75,7 +75,10 @@ public class PasswordField : InputField
         // +는 앞에 오는 문자가 1회 이상 반복되고 있는지를 체크한다.
         // -는 범위 지정자이며 앞,뒤 문자의 사이 값을 전부 받는다.
         // []는 그룹으로 해당 안에 들어있는 문자가 그룹이 된다.
+
         Regex regex = new Regex("[a-z]+[A-Z]+[0-9]+[~!@#$%^&*()_+|[\\]{};':,.<>/?\\-=]+");
+        Debug.Log($"{str}({str.Length})");
+        Debug.Log(regex.IsMatch(str));
         return regex.IsMatch(str);
     }
 }

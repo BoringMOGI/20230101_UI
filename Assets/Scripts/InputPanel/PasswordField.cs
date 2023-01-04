@@ -45,7 +45,7 @@ public class PasswordField : InputField
 
         // 대소문자,특수기호,숫자가 모두 들어가면 안전.
         // 그렇지 않으면 위험.
-        if (ValidField)
+        if (IsValidField)
             validType = IsSafe(str) ? VALID_TYPE.Valid : VALID_TYPE.Warning;
         else
             validType = VALID_TYPE.NotValid;
